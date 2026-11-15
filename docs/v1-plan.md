@@ -231,7 +231,7 @@ Mirrors the OpenLint monorepo conventions:
   - writes `CHANGELOG.md`
   - commits the version bump (`chore(release): x.y.z [skip ci]`)
   - tags it
-  - publishes the package to npm
+  - publishes the package to npm. npm only updates a package's README on publish, so `docs(readme):` commits release a patch (a `releaseRules` entry for the commit analyzer). Other `docs:` commits don't release.
   - creates a GitHub release with the packed package (`npm pack`, which builds `dist/`) as `openlint-mcp.tgz`
 
   It uses the built-in `GITHUB_TOKEN` with `contents: write`, plus `id-token: write` for npm. It makes no issue or PR comments and adds no labels, and it never runs in forks. `workflow_dispatch` runs a dry run by default. If `main` gets branch protection, the release commit needs a bypass for GitHub Actions.

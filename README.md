@@ -2,7 +2,7 @@
 
 An [MCP](https://modelcontextprotocol.io) server for [OpenLint](https://github.com/openlint/openlint). It lets AI tools such as Claude, Codex and OpenCode lint OpenAPI, AsyncAPI and Arazzo documents, look up rules, and check OpenLint rulesets.
 
-The server runs locally over stdio and builds only on the published `@openlint/*` npm packages. Design and milestones: [`docs/v1-plan.md`](docs/v1-plan.md).
+The server runs locally over stdio and builds only on the published `@openlint/*` npm packages.
 
 ## Tools
 
