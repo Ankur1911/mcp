@@ -1,3 +1,10 @@
+## [0.1.1](https://github.com/openlint/mcp/compare/v0.1.0...v0.1.1) (2026-11-15)
+
+
+### Bug Fixes
+
+* point the changelog and docs at openlint/mcp ([#10](https://github.com/openlint/mcp/issues/10)) ([7354d5b](https://github.com/openlint/mcp/commit/7354d5b6e01bee75552a54d689aa9664cef4a653))
+
 # [0.1.0](https://github.com/openlint/mcp/compare/v0.0.0...v0.1.0) (2026-11-08)
 
 
