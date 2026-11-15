@@ -192,9 +192,9 @@ Mirrors the OpenLint monorepo conventions:
 - Vitest for tests
 - ESLint and Prettier
 - commitlint (conventional commits) with husky; this applies to PR titles too
-- `semantic-release` for versioning (PR 5: GitHub releases only for now; see Distribution)
+- `semantic-release` for versioning, publishing to npm and GitHub releases (see Distribution)
 - GitHub Actions CI: lint, test and build on Node 22 and 24
-- `bin: { "openlint-mcp": "./dist/index.js" }`, to be published to npm as `@openlint/openlint-mcp` (until then, GitHub releases only)
+- `bin: { "openlint-mcp": "./dist/index.js" }`, published to npm as `@openlint/openlint-mcp`
 - License: Apache-2.0 (already in the repo)
 
 ## Testing
@@ -218,19 +218,23 @@ Mirrors the OpenLint monorepo conventions:
 2. **Ruleset service.** Startup and fallback loading, inline parsing (the spike), the `extends` allowlist and the `functions` rejection, `validate_ruleset`, `list_rulesets`.
 3. **`lint_document`.** Output shaping (counts, grouping, limit), external-ref policy.
 4. **`list_rules` and `explain_rule`.** Format synonyms, `extensions` passthrough.
-5. **Docs and release.** Setup steps for Claude Code, Claude Desktop, Codex and OpenCode were added to the README in PR 2, and were checked against each tool's docs and, for Claude Code and Codex, against the files their `mcp add` commands write. *PR 5:* the first release, on GitHub only (see Distribution). The README installs from the release tarball and uses the `openlint-mcp` command, with absolute paths for Claude Desktop. The npm release, and switching the examples to `npx -y @openlint/openlint-mcp`, come next, now that the repo is in the `openlint` org.
+5. **Docs and release.** Setup steps for Claude Code, Claude Desktop, Codex and OpenCode were added to the README in PR 2, and were checked against each tool's docs and, for Claude Code and Codex, against the files their `mcp add` commands write. *PR 5:* the first release, on GitHub only (see Distribution). The README installs from the release tarball and uses the `openlint-mcp` command, with absolute paths for Claude Desktop. *After the move to the `openlint` org:* releases also go to npm. The README installs with `npm install -g @openlint/openlint-mcp` and keeps the `openlint-mcp` command in the examples, since a global install starts faster than `npx` and desktop apps may not find `npx` on their `PATH`. `npx -y @openlint/openlint-mcp` is shown as the no-install option, and the tarball stays as an alternative.
 
 ### Distribution (PR 5)
 
-- **No npm yet** (open question 1). The package stays `private: true`, and semantic-release runs with `npmPublish: false`. The repo moved to `openlint/mcp` on 2026-11-15, so publishing `@openlint/openlint-mcp` is the next step. It needs npm access for the `openlint` scope, then `npmPublish: true`, an npm token or trusted publishing, and dropping `private`.
+- **npm** (open question 1). Until the move to `openlint/mcp` on 2026-11-15, the package was `private: true` and releases went to GitHub only. Now `@openlint/openlint-mcp` is public (`publishConfig.access: public`), and semantic-release publishes it to npm with provenance (`publishConfig.provenance: true`).
+  - **Auth:** the release job has `id-token: write`. `@semantic-release/npm` (13.x, with npm 11) tries npm trusted publishing first and falls back to the `NPM_TOKEN` secret. npm only lets you add a trusted publisher to a package that already exists, so the first publish uses a short-lived granular token for the `@openlint` scope.
+  - **After the first publish:** add the trusted publisher on npmjs.com (organization `openlint`, repository `mcp`, workflow `release.yml`). From then on trusted publishing is used even while `NPM_TOKEN` is set. Then delete the secret and revoke the token. The `NPM_TOKEN` line in `release.yml` is then unused and can go in a later cleanup.
+  - **Local publishes fail** with `provenance: true`, because provenance needs CI. Releases only go out through `release.yml`.
 - **What a release does:** `release.yml` runs on pushes to `main`, after CI (`ci.yml` through `workflow_call`). semantic-release:
   - picks the version from the conventional commits. Versions start at 0.x: a `v0.0.0` baseline tag on the repository's first commit makes the first release 0.1.0, with notes covering the whole history.
   - writes `CHANGELOG.md`
   - commits the version bump (`chore(release): x.y.z [skip ci]`)
   - tags it
+  - publishes the package to npm
   - creates a GitHub release with the packed package (`npm pack`, which builds `dist/`) as `openlint-mcp.tgz`
 
-  It uses the built-in `GITHUB_TOKEN` with `contents: write` only. It makes no issue or PR comments and adds no labels, and it never runs in forks. `workflow_dispatch` runs a dry run by default. If `main` gets branch protection, the release commit needs a bypass for GitHub Actions.
+  It uses the built-in `GITHUB_TOKEN` with `contents: write`, plus `id-token: write` for npm. It makes no issue or PR comments and adds no labels, and it never runs in forks. `workflow_dispatch` runs a dry run by default. If `main` gets branch protection, the release commit needs a bypass for GitHub Actions.
 - **Why a tarball, not `npx github:`:**
   - npm 12 defaults `allow-git` and `allow-remote` to `none`, so `npx github:openlint/mcp` and tarball URLs fail unless users opt in.
   - npm 12 also skips dependency install scripts, so a git install wouldn't build `dist/`; this was checked locally.
@@ -273,6 +277,6 @@ Points raised while reviewing the plan against #13, and how PR 2 settled them.
 
 ## Open questions
 
-1. ~~What npm name to use before the transfer: unpublished, a personal npm scope, or ask now for `@openlint/openlint-mcp`?~~ Decided in PR 5: nothing on npm until the transfer, then `@openlint/openlint-mcp`. The repo moved to `openlint/mcp` on 2026-11-15. Until then, GitHub releases with a package tarball (see Distribution).
+1. ~~What npm name to use before the transfer: unpublished, a personal npm scope, or ask now for `@openlint/openlint-mcp`?~~ Decided in PR 5: nothing on npm until the transfer, then `@openlint/openlint-mcp`. The repo moved to `openlint/mcp` on 2026-11-15, and releases now go to npm as well as GitHub (see Distribution).
 2. ~~Should the fallback load all three rulesets, or start with none and tell the agent to configure one?~~ Decided in PR 2: load all three (see Ruleset sources).
 3. ~~Should `lint_document` accept a `format` hint (`yaml|json`), or always parse as YAML (a superset of JSON)?~~ Decided in PR 3: an optional `filename`, whose `.json` extension selects the JSON parser (see `lint_document`).

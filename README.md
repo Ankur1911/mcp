@@ -4,8 +4,6 @@ An [MCP](https://modelcontextprotocol.io) server for [OpenLint](https://github.c
 
 The server runs locally over stdio and builds only on the published `@openlint/*` npm packages. Design and milestones: [`docs/v1-plan.md`](docs/v1-plan.md).
 
-> **Not on npm yet.** Install it from a [GitHub release](https://github.com/openlint/mcp/releases) (below). Publishing to npm as `@openlint/openlint-mcp` is planned.
-
 ## Tools
 
 All tools are read-only.
@@ -22,20 +20,31 @@ All tools are read-only.
 
 Requires Node.js `^22.22.1 || >=24`.
 
-### From a release (recommended)
+### From npm (recommended)
 
-Each [GitHub release](https://github.com/openlint/mcp/releases) includes the built package as `openlint-mcp.tgz`. Install it globally:
+The package is [`@openlint/openlint-mcp`](https://www.npmjs.com/package/@openlint/openlint-mcp). Install it globally:
 
 ```sh
-curl -LO https://github.com/openlint/mcp/releases/latest/download/openlint-mcp.tgz
-npm install -g ./openlint-mcp.tgz
+npm install -g @openlint/openlint-mcp
 openlint-mcp --version
 ```
 
 - This installs the `openlint-mcp` command for your current Node.js. With asdf, run `asdf reshim nodejs` afterwards.
-- For a specific version, download `releases/download/v<version>/openlint-mcp.tgz` instead of `releases/latest/download/…`. To update, install a newer release the same way.
-- npm 12 may warn that it skipped install scripts for `@openlint/openlint-mcp` and `fsevents`. The package doesn't need them.
-- **Why not `npx github:openlint/mcp`?** npm 12 refuses git and URL installs by default (its `allow-git` and `allow-remote` settings), and a git install has to build the package first. A downloaded tarball installs anywhere.
+- To update, run `npm install -g @openlint/openlint-mcp@latest`.
+- npm 12 may warn that it skipped install scripts (for example for `fsevents`). The package doesn't need them.
+- **Without installing:** use `npx -y @openlint/openlint-mcp` wherever the examples below say `openlint-mcp`, for example `claude mcp add openlint -- npx -y @openlint/openlint-mcp`. The first start downloads the package, so it's slower than a global install.
+- Releases are published from GitHub Actions with [npm provenance](https://docs.npmjs.com/generating-provenance-statements), which links each version to the commit and workflow that built it.
+
+### From a GitHub release
+
+Each [GitHub release](https://github.com/openlint/mcp/releases) also includes the built package as `openlint-mcp.tgz`, for installing without the npm registry:
+
+```sh
+curl -LO https://github.com/openlint/mcp/releases/latest/download/openlint-mcp.tgz
+npm install -g ./openlint-mcp.tgz
+```
+
+For a specific version, download `releases/download/v<version>/openlint-mcp.tgz` instead of `releases/latest/download/…`. npm 12 refuses git and URL installs by default (its `allow-git` and `allow-remote` settings), so download the file first; `npx github:openlint/mcp` doesn't work.
 
 ### From source
 
@@ -117,7 +126,7 @@ rules:
 
 ## Use with AI tools
 
-The examples run the `openlint-mcp` command from a release install. Replace `/abs/path/to/.openlint.yaml` with your ruleset. The `--ruleset …` part is optional; without it, the server uses the default rulesets above. If a tool can't find `openlint-mcp` (desktop apps often don't see your shell's `PATH`), use the absolute paths shown for Claude Desktop.
+The examples run the `openlint-mcp` command from a global install. Replace `/abs/path/to/.openlint.yaml` with your ruleset. The `--ruleset …` part is optional; without it, the server uses the default rulesets above. If a tool can't find `openlint-mcp` (desktop apps often don't see your shell's `PATH`), use the absolute paths shown for Claude Desktop.
 
 ### Claude Code
 
@@ -167,7 +176,7 @@ Desktop apps often don't see the `PATH` from your shell, especially with version
 
 ```sh
 node -p process.execPath                                    # Node.js
-echo "$(npm root -g)/@openlint/openlint-mcp/dist/index.js"  # the server, from a release install
+echo "$(npm root -g)/@openlint/openlint-mcp/dist/index.js"  # the server, from a global install
 ```
 
 Then add the server:

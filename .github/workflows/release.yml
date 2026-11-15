@@ -22,8 +22,10 @@ jobs:
     if: github.repository == 'openlint/mcp'
     runs-on: ubuntu-latest
     permissions:
-      # Tag, GitHub release with the package tarball, and the version commit. Nothing goes to npm.
+      # Tag, GitHub release with the package tarball, and the version commit.
       contents: write
+      # npm trusted publishing and provenance.
+      id-token: write
     env:
       HUSKY: '0'
     steps:
@@ -39,3 +41,5 @@ jobs:
         run: npx semantic-release ${{ inputs.dry-run && '--dry-run' || '' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Only used when trusted publishing isn't set up for the package on npm.
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
