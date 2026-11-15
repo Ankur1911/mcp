@@ -41,5 +41,3 @@ jobs:
         run: npx semantic-release ${{ inputs.dry-run && '--dry-run' || '' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          # Only used when trusted publishing isn't set up for the package on npm.
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
