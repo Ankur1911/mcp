@@ -12,11 +12,11 @@
     "AsyncAPI",
     "Arazzo"
   ],
-  "homepage": "https://github.com/miqui/openlint-mcp",
-  "bugs": "https://github.com/miqui/openlint-mcp/issues",
+  "homepage": "https://github.com/openlint/mcp",
+  "bugs": "https://github.com/openlint/mcp/issues",
   "repository": {
     "type": "git",
-    "url": "https://github.com/miqui/openlint-mcp"
+    "url": "https://github.com/openlint/mcp"
   },
   "license": "Apache-2.0",
   "type": "module",

@@ -4,7 +4,7 @@ An [MCP](https://modelcontextprotocol.io) server for [OpenLint](https://github.c
 
 The server runs locally over stdio and builds only on the published `@openlint/*` npm packages. Design and milestones: [`docs/v1-plan.md`](docs/v1-plan.md).
 
-> **Not on npm yet.** Releases are published on GitHub until the project moves to the `openlint` organization; it will then be published to npm as `@openlint/openlint-mcp`.
+> **Not on npm yet.** Install it from a [GitHub release](https://github.com/openlint/mcp/releases) (below). Publishing to npm as `@openlint/openlint-mcp` is planned.
 
 ## Tools
 
@@ -24,10 +24,10 @@ Requires Node.js `^22.22.1 || >=24`.
 
 ### From a release (recommended)
 
-Each [GitHub release](https://github.com/miqui/openlint-mcp/releases) includes the built package as `openlint-mcp.tgz`. Install it globally:
+Each [GitHub release](https://github.com/openlint/mcp/releases) includes the built package as `openlint-mcp.tgz`. Install it globally:
 
 ```sh
-curl -LO https://github.com/miqui/openlint-mcp/releases/latest/download/openlint-mcp.tgz
+curl -LO https://github.com/openlint/mcp/releases/latest/download/openlint-mcp.tgz
 npm install -g ./openlint-mcp.tgz
 openlint-mcp --version
 ```
@@ -35,12 +35,12 @@ openlint-mcp --version
 - This installs the `openlint-mcp` command for your current Node.js. With asdf, run `asdf reshim nodejs` afterwards.
 - For a specific version, download `releases/download/v<version>/openlint-mcp.tgz` instead of `releases/latest/download/…`. To update, install a newer release the same way.
 - npm 12 may warn that it skipped install scripts for `@openlint/openlint-mcp` and `fsevents`. The package doesn't need them.
-- **Why not `npx github:miqui/openlint-mcp`?** npm 12 refuses git and URL installs by default (its `allow-git` and `allow-remote` settings), and a git install has to build the package first. A downloaded tarball installs anywhere.
+- **Why not `npx github:openlint/mcp`?** npm 12 refuses git and URL installs by default (its `allow-git` and `allow-remote` settings), and a git install has to build the package first. A downloaded tarball installs anywhere.
 
 ### From source
 
 ```sh
-git clone https://github.com/miqui/openlint-mcp.git
+git clone https://github.com/openlint/mcp.git openlint-mcp
 cd openlint-mcp
 npm ci
 npm run build
