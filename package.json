@@ -1,7 +1,6 @@
 {
   "name": "@openlint/openlint-mcp",
   "version": "0.1.1",
-  "private": true,
   "description": "MCP server for OpenLint: lint OpenAPI, AsyncAPI and Arazzo documents, look up rules and check rulesets.",
   "keywords": [
     "mcp",
@@ -29,6 +28,10 @@
   "engines": {
     "node": "^22.22.1 || >=24"
   },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
   "scripts": {
     "build": "npm run tsc -- -p tsconfig.build.json",
     "clean": "node -e \"for (const d of ['dist', '.cache', 'coverage']) require('node:fs').rmSync(d, { recursive: true, force: true })\"",
@@ -54,7 +57,6 @@
       [
         "@semantic-release/npm",
         {
-          "npmPublish": false,
           "tarballDir": "release"
         }
       ],
