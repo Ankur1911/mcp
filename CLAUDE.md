@@ -3,7 +3,7 @@
 MCP server for [OpenLint](https://github.com/openlint/openlint). It lints API documents (OpenAPI, AsyncAPI, Arazzo), looks up rules and checks rulesets.
 
 - Design and milestones: [`docs/v1-plan.md`](docs/v1-plan.md). Read it before starting work; each milestone is one PR.
-- Background: [openlint/openlint#13](https://github.com/openlint/openlint/issues/13). The maintainers asked for a separate repo that builds only on **published** `@openlint/*` npm packages. This repo lives at `openlint/mcp` (moved from `miqui/openlint-mcp` on 2026-11-15; old URLs redirect).
+- Background: [openlint/openlint#13](https://github.com/openlint/openlint/issues/13). The maintainers asked for a separate repo that builds only on **published** `@openlint/*` npm packages. This repo lives at `openlint/mcp`.
 - If something needed isn't exported from the published packages, don't copy OpenLint internals. Open a small PR on `openlint/openlint` to export it, and note it in the plan's "Upstream follow-ups" section.
 
 ## Conventions
@@ -21,5 +21,5 @@ Never mention Claude or AI assistance in commits, PRs, issues or comments. No `C
 
 ## Local references
 
-- OpenLint monorepo clone: `~/development/openlint` (remotes: `origin` = fork `miqui/openlint`, `upstream` = `openlint/openlint`).
+- OpenLint monorepo clone: `~/development/openlint` (remotes: `origin` = your fork, `upstream` = `openlint/openlint`).
 - Example API documents and rulesets: `~/development/openapi-examples` (see `OPENLINT-EXAMPLES.md` there).

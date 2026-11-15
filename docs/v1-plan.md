@@ -6,7 +6,7 @@ Status: draft · Tracking issue: [openlint/openlint#13](https://github.com/openl
 
 An MCP server that lets AI agents lint API documents (OpenAPI, AsyncAPI, Arazzo) with OpenLint, look up rules, and check rulesets they write. It talks over stdio and runs with `npx`.
 
-It lives in its own repo, [`openlint/mcp`](https://github.com/openlint/mcp), and builds only on **published** `@openlint/*` npm packages, as the maintainers asked on #13. It started as `miqui/openlint-mcp` and moved to the `openlint` org on 2026-11-15, as P0lip suggested; old URLs redirect.
+It lives in its own repo, [`openlint/mcp`](https://github.com/openlint/mcp), and builds only on **published** `@openlint/*` npm packages, as the maintainers asked on #13. It moved into the `openlint` org on 2026-11-15, as P0lip suggested.
 
 ## Decisions from #13
 
@@ -273,6 +273,6 @@ Points raised while reviewing the plan against #13, and how PR 2 settled them.
 
 ## Open questions
 
-1. ~~What npm name to use before the transfer: unpublished, `@miqui/openlint-mcp`, or ask now for `@openlint/openlint-mcp`?~~ Decided in PR 5: nothing on npm until the transfer, then `@openlint/openlint-mcp`. The repo moved to `openlint/mcp` on 2026-11-15. Until then, GitHub releases with a package tarball (see Distribution).
+1. ~~What npm name to use before the transfer: unpublished, a personal npm scope, or ask now for `@openlint/openlint-mcp`?~~ Decided in PR 5: nothing on npm until the transfer, then `@openlint/openlint-mcp`. The repo moved to `openlint/mcp` on 2026-11-15. Until then, GitHub releases with a package tarball (see Distribution).
 2. ~~Should the fallback load all three rulesets, or start with none and tell the agent to configure one?~~ Decided in PR 2: load all three (see Ruleset sources).
 3. ~~Should `lint_document` accept a `format` hint (`yaml|json`), or always parse as YAML (a superset of JSON)?~~ Decided in PR 3: an optional `filename`, whose `.json` extension selects the JSON parser (see `lint_document`).
