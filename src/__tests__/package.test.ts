@@ -14,6 +14,7 @@ interface PackageJson {
 }
 
 const pkg = JSON.parse(readFileSync(new URL('../../package.json', import.meta.url), 'utf8')) as PackageJson;
+const releaseWorkflow = readFileSync(new URL('../../.github/workflows/release.yml', import.meta.url), 'utf8');
 
 function pluginOptions(name: string): Record<string, unknown> | undefined {
   for (const plugin of pkg.release.plugins) {
@@ -37,6 +38,11 @@ describe('package.json', () => {
     expect(options).toBeDefined();
     expect(options?.['npmPublish']).not.toBe(false);
     expect(options?.['tarballDir']).toBe('release');
+  });
+
+  it('publishes through npm trusted publishing, without an npm token', () => {
+    expect(releaseWorkflow).toMatch(/^\s+id-token: write$/m);
+    expect(releaseWorkflow).not.toContain('NPM_TOKEN');
   });
 
   it('releases docs(readme) commits, so npm shows the current README', () => {
