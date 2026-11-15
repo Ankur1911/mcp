@@ -1,3 +1,10 @@
+# [0.2.0](https://github.com/openlint/mcp/compare/v0.1.1...v0.2.0) (2026-11-15)
+
+
+### Features
+
+* publish to npm as @openlint/openlint-mcp ([#11](https://github.com/openlint/mcp/issues/11)) ([77f132f](https://github.com/openlint/mcp/commit/77f132f1406d8804497d5530aacff897464d82ab))
+
 ## [0.1.1](https://github.com/openlint/mcp/compare/v0.1.0...v0.1.1) (2026-11-15)
 
 
