@@ -39,6 +39,14 @@ describe('package.json', () => {
     expect(options?.['tarballDir']).toBe('release');
   });
 
+  it('releases docs(readme) commits, so npm shows the current README', () => {
+    expect(pluginOptions('@semantic-release/commit-analyzer')?.['releaseRules']).toContainEqual({
+      type: 'docs',
+      scope: 'readme',
+      release: 'patch',
+    });
+  });
+
   it('ships the openlint-mcp command in the published files', () => {
     const bin = pkg.bin['openlint-mcp'];
     expect(bin).toBe('./dist/index.js');
