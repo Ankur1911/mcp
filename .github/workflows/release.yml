@@ -19,7 +19,7 @@ jobs:
   release:
     needs: ci
     # Forks never release.
-    if: github.repository == 'miqui/openlint-mcp'
+    if: github.repository == 'openlint/mcp'
     runs-on: ubuntu-latest
     permissions:
       # Tag, GitHub release with the package tarball, and the version commit. Nothing goes to npm.
