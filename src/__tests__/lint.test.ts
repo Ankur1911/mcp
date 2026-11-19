@@ -37,6 +37,12 @@ describe('formats', () => {
     const result = await lintDocument({ content: read('not-an-api.yaml'), ruleset: defaultRuleset });
     expect(result.formats).toEqual([]);
     expect(result.diagnostics.map(diagnostic => diagnostic.code)).toEqual(['unrecognized-format']);
+    expect(result.notes).toEqual([expect.stringContaining('No format was recognized')]);
+  });
+
+  it('adds no unrecognized-format note when a format matched', async () => {
+    const result = await lintDocument({ content: read('oas3.0.yaml'), ruleset: defaultRuleset });
+    expect(result.notes).toEqual([]);
   });
 
   it('reports invalid YAML as diagnostics', async () => {
