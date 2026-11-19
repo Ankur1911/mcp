@@ -45,6 +45,18 @@ describe('formats', () => {
     expect(result.notes).toEqual([]);
   });
 
+  it('adds no unrecognized-format note for a ruleset without formats that runs its rules', async () => {
+    const ruleset = rulesetOf(
+      fallback.loadInline(
+        'rules:\n  need-title:\n    given: $\n    severity: error\n    then:\n      field: title\n      function: truthy\n',
+      ),
+    );
+    const result = await lintDocument({ content: 'hello: world\n', ruleset });
+    expect(result.formats).toEqual([]);
+    expect(result.diagnostics.map(diagnostic => diagnostic.code)).toEqual(['need-title']);
+    expect(result.notes).toEqual([]);
+  });
+
   it('reports invalid YAML as diagnostics', async () => {
     const result = await lintDocument({ content: 'openapi: 3.0.3\ninfo: [1\n', ruleset: defaultRuleset });
     expect(result.diagnostics.map(diagnostic => diagnostic.code)).toContain('parser');

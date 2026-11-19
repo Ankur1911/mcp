@@ -97,14 +97,17 @@ export function parseConfig(argv: readonly string[], env: NodeJS.ProcessEnv, cwd
   }
 
   const allowExternalRefs = values['allow-external-refs'] === true;
+  // Before the rulesets are checked, so help and the version work while a configuration is wrong.
+  const show = values.help === true ? 'help' : values.version === true ? 'version' : undefined;
+  if (show !== undefined) {
+    return { rulesets: [], allowExternalRefs, maxContentBytes: DEFAULT_MAX_CONTENT_BYTES, show };
+  }
+
   const rawMax = values['max-content-bytes'] ?? env['OPENLINT_MCP_MAX_CONTENT_BYTES']?.trim();
   const maxContentBytes = rawMax === undefined || rawMax === '' ? DEFAULT_MAX_CONTENT_BYTES : Number(rawMax);
   if (!Number.isSafeInteger(maxContentBytes) || maxContentBytes < 1) {
     throw new ConfigError(`--max-content-bytes must be a positive whole number of bytes (got "${rawMax}").`);
   }
-  // Before the rulesets are checked, so help and the version work while a configuration is wrong.
-  const show = values.help === true ? 'help' : values.version === true ? 'version' : undefined;
-  if (show !== undefined) return { rulesets: [], allowExternalRefs, maxContentBytes, show };
 
   let unnamed: string | undefined;
   const named: { name: string; path: string }[] = [];

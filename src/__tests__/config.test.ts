@@ -106,6 +106,11 @@ describe('parseConfig', () => {
     expect(parseConfig(['-r', 'oas=x.yaml', '--version'], {}, cwd).show).toBe('version');
   });
 
+  it('shows help and the version even when the size limit is invalid', () => {
+    expect(parseConfig(['--version', '--max-content-bytes', 'lots'], {}, cwd).show).toBe('version');
+    expect(parseConfig(['--help'], { OPENLINT_MCP_MAX_CONTENT_BYTES: '0' }, cwd).show).toBe('help');
+  });
+
   it('explains the default ruleset order in the help', () => {
     expect(USAGE).toMatch(/unnamed --ruleset, else OPENLINT_RULESET, else the first named\s+ruleset/);
   });

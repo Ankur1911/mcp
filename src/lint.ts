@@ -145,7 +145,7 @@ export async function lintDocument(options: LintOptions): Promise<LintResult> {
   if (!allowExternalRefs && results.some(isUnfollowedExternalRef)) notes.push(EXTERNAL_REFS_NOTE);
 
   const formats = [...(document.formats ?? [])].map(format => format.displayName ?? format.name);
-  if (formats.length === 0) notes.push(NO_FORMAT_NOTE);
+  if (results.some(result => result.code === 'unrecognized-format')) notes.push(NO_FORMAT_NOTE);
 
   return {
     formats,
